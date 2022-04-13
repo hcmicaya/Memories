@@ -12,7 +12,7 @@ const App = () => {
 
     return (
         <BrowserRouter>
-            <Container maxidth="xl">
+            <Container maxWidth="xl">
                 <Navbar />
                 <Routes>
                     <Route
