@@ -13,7 +13,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import ChipInput from "material-ui-chip-input";
 
 import { getPosts, getPostBySearch } from "../../actions/posts";
-import Paginate from "../Pagination";
+import Pagination from "../Pagination";
 import Posts from "../Posts/Posts";
 import Form from "../Form/Form";
 
@@ -33,10 +33,6 @@ const Home = () => {
     const searchQuery = query.get("searchQuery");
     const [search, setSearch] = useState("");
     const [tags, setTags] = useState([]);
-
-    useEffect(() => {
-        dispatch(getPosts());
-    }, [dispatch]);
 
     const searchPost = () => {
         if (search.trim() || tags) {
@@ -113,7 +109,7 @@ const Home = () => {
                             setCurrentId={setCurrentId}
                         />
                         <Paper className={classes.pagination} elevation={6}>
-                            <Paginate />
+                            <Pagination page={page} />
                         </Paper>
                     </Grid>
                 </Grid>
