@@ -11,6 +11,22 @@ export const getPosts = async (req, res) => {
     }
 };
 
+export const getPostsBySearch = async (req, res) => {
+    const { searchQuery, tags } = req.query;
+
+    try {
+        const title = new RegExp(searchQuery, "i");
+
+        const posts = await PostMessage.find({
+            $or: [{ title }, { tags: { $in: tags.split(",") } }],
+        });
+
+        res.json({ data: posts });
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+};
+
 export const createPosts = async (req, res) => {
     const post = req.body;
 
@@ -51,8 +67,6 @@ export const deletePost = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id))
         return res.status(404).send("No post with that id");
     await PostMessage.findByIdAndRemove(id);
-
-    console.log("DELETE!");
 
     res.json({ message: "Post deleted successfully" });
 };
