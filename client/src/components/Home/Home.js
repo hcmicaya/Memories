@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
     Container,
     Grow,
@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import ChipInput from "material-ui-chip-input";
 
-import { getPosts, getPostBySearch } from "../../actions/posts";
+import { getPostsBySearch } from "../../actions/posts";
 import Pagination from "../Pagination";
 import Posts from "../Posts/Posts";
 import Form from "../Form/Form";
@@ -37,7 +37,7 @@ const Home = () => {
     const searchPost = () => {
         if (search.trim() || tags) {
             //dispatch => fetch search post
-            dispatch(getPostBySearch({ search, tags: tags.join(",") }));
+            dispatch(getPostsBySearch({ search, tags: tags.join(",") }));
             navigate(
                 `/posts/search?searchQuery=${search || "none"}&tags=${tags.join(
                     ","
@@ -108,9 +108,11 @@ const Home = () => {
                             currentId={currentId}
                             setCurrentId={setCurrentId}
                         />
-                        <Paper className={classes.pagination} elevation={6}>
-                            <Pagination page={page} />
-                        </Paper>
+                        {!searchQuery && !tags.length && (
+                            <Paper className={classes.pagination} elevation={6}>
+                                <Pagination page={page} />
+                            </Paper>
+                        )}
                     </Grid>
                 </Grid>
             </Container>
