@@ -58,7 +58,7 @@ const CommentSection = ({ post }) => {
                     <div ref={commentsRef} />
                 </div>
                 {user && (
-                    <div style={{ width: "70%" }}>
+                    <div style={{ width: "50%" }}>
                         <Typography gutterBottom variant="h6">
                             Write a comment
                         </Typography>

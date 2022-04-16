@@ -42,10 +42,12 @@ export default makeStyles((theme) => ({
     },
     commentsOuterContainer: {
         display: "flex",
-        justifyContent: "space-betwee",
+        justifyContent: "space-between",
     },
     commentsInnerContainer: {
         height: "200px",
+        maxWidth: "700px",
+        wordWrap: "break-word",
         overflowY: "auto",
         marginRight: "30px",
     },

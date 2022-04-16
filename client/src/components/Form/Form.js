@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase from "react-file-base64";
+import Resizer from "react-image-file-resizer";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -35,6 +36,34 @@ const Form = ({ currentId, setCurrentId }) => {
         });
     };
 
+    const fileChangedHandler = (event) => {
+        let fileInput = false;
+        if (event.target.files[0]) {
+            fileInput = true;
+        }
+        if (fileInput) {
+            try {
+                Resizer.imageFileResizer(
+                    event.target.files[0],
+                    600,
+                    600,
+                    "JPEG",
+                    50,
+                    0,
+                    (uri) => {
+                        console.log(uri);
+                        setPostData({ ...postData, selectedFile: uri });
+                    },
+                    "base64",
+                    200,
+                    200
+                );
+            } catch (err) {
+                console.log(err);
+            }
+        }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -65,7 +94,7 @@ const Form = ({ currentId, setCurrentId }) => {
         <Paper className={classes.paper} elevation={6}>
             <form
                 autoComplete="off"
-                noValidate
+                Validate
                 className={`${classes.root} ${classes.form}`}
                 onSubmit={handleSubmit}
             >
@@ -77,6 +106,7 @@ const Form = ({ currentId, setCurrentId }) => {
                     variant="outlined"
                     label="Title"
                     fullWidth
+                    required
                     value={postData.title}
                     onChange={(e) =>
                         setPostData({ ...postData, title: e.target.value })
@@ -87,6 +117,7 @@ const Form = ({ currentId, setCurrentId }) => {
                     variant="outlined"
                     label="Message"
                     fullWidth
+                    required
                     value={postData.message}
                     onChange={(e) =>
                         setPostData({ ...postData, message: e.target.value })
@@ -97,6 +128,7 @@ const Form = ({ currentId, setCurrentId }) => {
                     variant="outlined"
                     label="Tags (comma separated)"
                     fullWidth
+                    required
                     value={postData.tags}
                     onChange={(e) =>
                         setPostData({
@@ -106,12 +138,17 @@ const Form = ({ currentId, setCurrentId }) => {
                     }
                 />
                 <div className={classes.fileInput}>
-                    <FileBase
+                    {/* <FileBase
                         type="file"
                         multiple={false}
                         onDone={({ base64 }) =>
                             setPostData({ ...postData, selectedFile: base64 })
                         }
+                    /> */}
+                    <input
+                        type="file"
+                        multiple={false}
+                        onChange={(e) => fileChangedHandler(e)}
                     />
                 </div>
                 <Button
@@ -121,6 +158,7 @@ const Form = ({ currentId, setCurrentId }) => {
                     size="large"
                     type="submit"
                     fullWidth
+                    disabled={!postData.selectedFile}
                 >
                     {currentId ? "Update" : "Submit"}
                 </Button>
