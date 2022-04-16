@@ -9,6 +9,7 @@ import {
     LIKE,
     FETCH_POST,
     COMMENT,
+    DELETE_COMMENT,
 } from "../constants/actionTypes.js";
 
 export default (state = { isLoading: true, posts: [] }, action) => {
@@ -46,6 +47,15 @@ export default (state = { isLoading: true, posts: [] }, action) => {
                 ),
             };
         case COMMENT:
+            return {
+                ...state,
+                posts: state.posts.map((post) => {
+                    if (post._id === action.payload._id) return action.payload;
+
+                    return post;
+                }),
+            };
+        case DELETE_COMMENT:
             return {
                 ...state,
                 posts: state.posts.map((post) => {

@@ -1,24 +1,30 @@
 import React, { useState, useRef } from "react";
 import { Typography, TextField, Button } from "@material-ui/core";
 import { useDispatch } from "react-redux";
-import { commentPost } from "../../actions/posts";
+import { commentPost, deleteComment } from "../../actions/posts";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 import useStyles from "./styles";
 
 const CommentSection = ({ post }) => {
-    console.log(post);
     const classes = useStyles();
     const dispatch = useDispatch();
     const [comments, setComments] = useState(post?.comments);
     const [comment, setComment] = useState("");
     const user = JSON.parse(localStorage.getItem("profile"));
     const commentsRef = useRef();
+    const commentor = user?.result?.name;
+
+    const handleDelete = async (i) => {
+        const newComments = await dispatch(deleteComment(i, post._id));
+
+        setComments(newComments);
+    };
 
     const handleComment = async () => {
         const newComments = await dispatch(
             commentPost(`${user?.result.name}: ${comment}`, post._id)
         );
-        console.log(comments);
 
         setComment("");
         setComments(newComments);
@@ -35,8 +41,18 @@ const CommentSection = ({ post }) => {
                     </Typography>
                     {comments?.map((c, i) => (
                         <Typography key={i} gutterBottom variant="subtitle1">
-                            <strong>{c.split(" : ")[0]}</strong>:
+                            <strong>{c.split(": ")[0]}</strong>:
                             {c.split(":")[1]}
+                            {c.split(": ")[0] === commentor && (
+                                <Button
+                                    size="small"
+                                    color="secondary"
+                                    onClick={() => handleDelete(i)}
+                                >
+                                    <DeleteIcon fontSize="small" />
+                                    Delete
+                                </Button>
+                            )}
                         </Typography>
                     ))}
                     <div ref={commentsRef} />

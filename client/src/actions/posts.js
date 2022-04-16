@@ -9,6 +9,7 @@ import {
     DELETE,
     LIKE,
     COMMENT,
+    DELETE_COMMENT,
 } from "../constants/actionTypes.js";
 import * as api from "../api/index.js";
 
@@ -103,6 +104,18 @@ export const commentPost = (value, id) => async (dispatch) => {
         const { data } = await api.comment(value, id);
 
         dispatch({ type: COMMENT, payload: data });
+
+        return data.comments;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const deleteComment = (index, id) => async (dispatch) => {
+    try {
+        const { data } = await api.deleteComment(index, id);
+
+        dispatch({ type: DELETE_COMMENT, payload: data });
 
         return data.comments;
     } catch (error) {
