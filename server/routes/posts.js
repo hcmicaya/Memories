@@ -9,6 +9,7 @@ import {
     likePost,
     commentPost,
     deleteComment,
+    getPostsByCreator,
 } from "../controllers/posts.js";
 
 import auth from "../middleware/auth.js";
@@ -16,6 +17,7 @@ import auth from "../middleware/auth.js";
 const router = express.Router();
 
 router.get("/", getPosts);
+router.get("/creator", getPostsByCreator);
 router.get("/search", getPostsBySearch);
 router.get("/:id", getPost);
 router.post("/", auth, createPosts);

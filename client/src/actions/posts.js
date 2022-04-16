@@ -10,6 +10,7 @@ import {
     LIKE,
     COMMENT,
     DELETE_COMMENT,
+    FETCH_BY_CREATOR,
 } from "../constants/actionTypes.js";
 import * as api from "../api/index.js";
 
@@ -37,6 +38,20 @@ export const getPosts = (page) => async (dispatch) => {
         dispatch({ type: END_LOADING });
     } catch (error) {
         console.log(error.message);
+    }
+};
+
+export const getPostsByCreator = (name) => async (dispatch) => {
+    try {
+        dispatch({ type: START_LOADING });
+        const {
+            data: { data },
+        } = await api.fetchPostsByCreator(name);
+
+        dispatch({ type: FETCH_BY_CREATOR, payload: data });
+        dispatch({ type: END_LOADING });
+    } catch (error) {
+        console.log(error);
     }
 };
 

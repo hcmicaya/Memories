@@ -6,7 +6,7 @@ import {
     Divider,
 } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import moment from "moment";
 
 import CommentSection from "./CommentSection";
@@ -67,7 +67,13 @@ const PostDetails = () => {
                         {post.message}
                     </Typography>
                     <Typography variant="h6">
-                        Created by: {post.name}
+                        Created by:
+                        <Link
+                            to={`/creators/${post.name}`}
+                            style={{ textDecoration: "none", color: "#3f51b5" }}
+                        >
+                            {` ${post.name}`}
+                        </Link>
                     </Typography>
                     <Typography variant="body1">
                         {moment(post.createdAt).fromNow()}
