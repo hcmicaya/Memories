@@ -13,7 +13,6 @@ const CommentSection = ({ post }) => {
     const [comment, setComment] = useState("");
     const user = JSON.parse(localStorage.getItem("profile"));
     const commentsRef = useRef();
-    const commentor = user?.result?.name;
 
     const userId = user?.result?.googleId || user?.result?._id;
 
@@ -30,8 +29,7 @@ const CommentSection = ({ post }) => {
                 post._id
             )
         );
-        console.log(userId);
-        console.log(user);
+
         setComment("");
         setComments(newComments);
 

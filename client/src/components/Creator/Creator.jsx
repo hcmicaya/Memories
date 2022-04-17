@@ -13,7 +13,7 @@ const Creator = () => {
 
     useEffect(() => {
         dispatch(getPostsByCreator(name));
-    }, []);
+    }, [name]);
 
     if (!posts.length && !isLoading) return "No posts";
 

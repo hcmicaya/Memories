@@ -85,6 +85,7 @@ const PostDetails = () => {
                 </div>
                 <div className={classes.imageSection}>
                     <img
+                        style={{ paddingBottom: "15px" }}
                         className={classes.media}
                         src={
                             post.selectedFile ||
@@ -101,48 +102,61 @@ const PostDetails = () => {
                     </Typography>
                     <Divider />
                     <div className={classes.recommendedPosts}>
-                        {recommendedPosts.map(
-                            ({
-                                title,
-                                message,
-                                name,
-                                likes,
-                                selectedFile,
-                                _id,
-                            }) => (
-                                <div
-                                    style={{
-                                        margin: "20px",
-                                        cursor: "pointer",
-                                    }}
-                                    onClick={() => openPost(_id)}
-                                    key={_id}
-                                >
-                                    <Typography gutterBottom variant="h6">
-                                        {title}
-                                    </Typography>
-                                    <Typography
-                                        gutterBottom
-                                        variant="subtitle2"
+                        {recommendedPosts
+                            .splice(0, 7)
+                            .map(
+                                ({
+                                    title,
+                                    message,
+                                    name,
+                                    likes,
+                                    selectedFile,
+                                    _id,
+                                }) => (
+                                    <div
+                                        style={{
+                                            margin: "20px",
+                                            cursor: "pointer",
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            justifyContent: "space-around",
+                                        }}
+                                        onClick={() => openPost(_id)}
+                                        key={_id}
                                     >
-                                        {name}
-                                    </Typography>
-                                    <Typography
-                                        gutterBottom
-                                        variant="subtitle2"
-                                    >
-                                        {message}
-                                    </Typography>
-                                    <Typography
-                                        gutterBottom
-                                        variant="subtitle1"
-                                    >
-                                        Like:{likes.length}
-                                    </Typography>
-                                    <img src={selectedFile} width="200px" />
-                                </div>
-                            )
-                        )}
+                                        <Typography gutterBottom variant="h6">
+                                            {title}
+                                        </Typography>
+                                        <Typography
+                                            gutterBottom
+                                            variant="subtitle2"
+                                        >
+                                            {name}
+                                        </Typography>
+                                        <Typography
+                                            gutterBottom
+                                            variant="subtitle2"
+                                        >
+                                            {message.slice(0, 100)}
+                                            {message.length > 100 && "..."}
+                                        </Typography>
+                                        <Typography
+                                            gutterBottom
+                                            variant="subtitle1"
+                                        >
+                                            Like: {likes.length}
+                                        </Typography>
+                                        <img
+                                            src={selectedFile}
+                                            width="200px"
+                                            height="150px"
+                                            style={{
+                                                marginTop: "auto",
+                                            }}
+                                        />
+                                    </div>
+                                )
+                            )}
                     </div>
                 </div>
             )}

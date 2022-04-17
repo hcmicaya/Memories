@@ -16,6 +16,7 @@ export default makeStyles((theme) => ({
         },
     },
     section: {
+        width: "100%",
         borderRadius: "20px",
         margin: "10px",
         flex: 1,
@@ -28,6 +29,9 @@ export default makeStyles((theme) => ({
     },
     recommendedPosts: {
         display: "flex",
+        justifyContent: "space-between",
+        width: "100%",
+        overflowX: "auto",
         [theme.breakpoints.down("sm")]: {
             flexDirection: "column",
         },
