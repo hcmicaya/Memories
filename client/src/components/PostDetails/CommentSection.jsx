@@ -15,6 +15,8 @@ const CommentSection = ({ post }) => {
     const commentsRef = useRef();
     const commentor = user?.result?.name;
 
+    const userId = user?.result?.googleId || user?.result?._id;
+
     const handleDelete = async (i) => {
         const newComments = await dispatch(deleteComment(i, post._id));
 
@@ -23,9 +25,13 @@ const CommentSection = ({ post }) => {
 
     const handleComment = async () => {
         const newComments = await dispatch(
-            commentPost(`${user?.result.name}: ${comment}`, post._id)
+            commentPost(
+                `${user?.result.name}: ${comment} : ${userId}`,
+                post._id
+            )
         );
-
+        console.log(userId);
+        console.log(user);
         setComment("");
         setComments(newComments);
 
@@ -43,16 +49,18 @@ const CommentSection = ({ post }) => {
                         <Typography key={i} gutterBottom variant="subtitle1">
                             <strong>{c.split(": ")[0]}</strong>:
                             {c.split(":")[1]}
-                            {c.split(": ")[0] === commentor && (
-                                <Button
-                                    size="small"
-                                    color="secondary"
-                                    onClick={() => handleDelete(i)}
-                                >
-                                    <DeleteIcon fontSize="small" />
-                                    Delete
-                                </Button>
-                            )}
+                            {user &&
+                                (user?.result?.googleId === c.split(": ")[2] ||
+                                    user?.result?._id === c.split(": ")[2]) && (
+                                    <Button
+                                        size="small"
+                                        color="secondary"
+                                        onClick={() => handleDelete(i)}
+                                    >
+                                        <DeleteIcon fontSize="small" />
+                                        Delete
+                                    </Button>
+                                )}
                         </Typography>
                     ))}
                     <div ref={commentsRef} />
